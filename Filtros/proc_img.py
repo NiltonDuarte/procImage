@@ -12,7 +12,7 @@ class MyImg:
 		self.outImgName = aux[-1]
 
 		self.img = Image.open(self.imgDir)
-        self.isBlackAndWhite = False
+                self.isBlackAndWhite = False
 		self.width = self.img.size[0]
 		self.height = self.img.size[1]
 
@@ -51,9 +51,9 @@ class MyImg:
 
 	def applySimpleFilter(self, func, extraArgs):
 	    
-	    if not isBlackAndWhite:
-	        print "Image must be set to black and white"
-	        return
+	        if not isBlackAndWhite:
+	                print "Image must be set to black and white"
+	                return
 	        
 		self.setOutName(func.__name__  +'--'+ self.outImgName)
 	
@@ -64,9 +64,9 @@ class MyImg:
 				self.pixels[x,y] = func(pixel, *extraArgs)
 
 	def applyComplexFilter(self, func, extraArgs, window=3):
-	    if not isBlackAndWhite:
-	        print "Image must be set to black and white"
-	        return
+	        if not isBlackAndWhite:
+	                print "Image must be set to black and white"
+	                return
 	    
 		self.setOutName(func.__name__ +'--'+ self.outImgName)
 		neighbors = window/2
@@ -95,7 +95,7 @@ class MyImg:
 		self.img = self.copyImg.copy()
 		
 	def applySimple3ChannelsFilters(self, func, extraArgs):
-        self.setOutName(func.__name__  +'--'+ self.outImgName)
+                self.setOutName(func.__name__  +'--'+ self.outImgName)
 	
 		self.pixels = self.img.load()
 		for x in range(self.width):

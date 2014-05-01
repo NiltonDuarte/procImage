@@ -18,16 +18,15 @@ class SimpleFilters:
 		
 
 class Simple3ChannelsFilters:
-    def skin(self, RGB):
-        Y = 16 + (0.257*RGB[0] + 0.504*RGB[1] + 0.098*RGB[2])*255;
+        def skin(self, RGB):
+                Y = 16 + (0.257*RGB[0] + 0.504*RGB[1] + 0.098*RGB[2])*255;
 		Cb = 128 + (-0.148*RGB[0] - 0.291*RGB[1] + 0.439*RGB[2])*255;
 		Cr = 128 + (0.439*RGB[0] - 0.368*RGB[1] - 0.071*RGB[2])*255;
 		YCbCr = (Y, Cb, Cr)
-		if ((50 <= YCbCr[0]) && (YCbCr[0] <= 230) && (74F <= YCbCr[1]) && (YCbCr[1]  <= 135F) && (130F <= YCbCr[2]) && (YCbCr[2] <=179F) ) {
-		    return (1,1,1)
-		    }
-		 else
-		    return (0,0,0)
+		if ((50 <= YCbCr[0]) and (YCbCr[0] <= 230) and (74 <= YCbCr[1]) and (YCbCr[1]  <= 135) and (130 <= YCbCr[2]) and (YCbCr[2] <=179) ):
+		    return (0,1,0)
+		else:
+		    return (1,0,1)
 		
         
         
