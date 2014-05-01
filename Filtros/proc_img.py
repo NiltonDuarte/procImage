@@ -102,4 +102,5 @@ class MyImg:
 			for y in range(self.height):
 				pixel = self.pixels[x,y]
 				self.pixels[x,y] = func(pixel, *extraArgs)
+			
 
