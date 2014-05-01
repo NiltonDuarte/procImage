@@ -15,6 +15,22 @@ class SimpleFilters:
 	def quadratic(self, x, factor=1, zero=0):
 		ret = ((factor*x/255.0)**2 - zero**2) * 255.0
 		return ret
+		
+
+class Simple3ChannelsFilters:
+    def skin(self, RGB):
+        Y = 16 + (0.257*RGB[0] + 0.504*RGB[1] + 0.098*RGB[2])*255;
+		Cb = 128 + (-0.148*RGB[0] - 0.291*RGB[1] + 0.439*RGB[2])*255;
+		Cr = 128 + (0.439*RGB[0] - 0.368*RGB[1] - 0.071*RGB[2])*255;
+		YCbCr = (Y, Cb, Cr)
+		if ((50 <= YCbCr[0]) && (YCbCr[0] <= 230) && (74F <= YCbCr[1]) && (YCbCr[1]  <= 135F) && (130F <= YCbCr[2]) && (YCbCr[2] <=179F) ) {
+		    return (1,1,1)
+		    }
+		 else
+		    return (0,0,0)
+		
+        
+        
 	
 
 class ComplexFilters:
@@ -159,3 +175,6 @@ class ComplexFilters:
 
 		ret = sqrt((x**2)+(y**2))
 		return ret
+		
+		
+

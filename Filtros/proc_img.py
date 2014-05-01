@@ -11,8 +11,8 @@ class MyImg:
 		aux = imgDir.split('/')		
 		self.outImgName = aux[-1]
 
-		self.img = Image.open(self.imgDir).convert("L")
-
+		self.img = Image.open(self.imgDir)
+        self.isBlackAndWhite = False
 		self.width = self.img.size[0]
 		self.height = self.img.size[1]
 
@@ -30,6 +30,10 @@ class MyImg:
 
 	def save(self):
 		self.img.save(self.outImgName)
+		
+	def setColorBlackAndWhite(self):
+	    self.img.convert("L")
+	    self.isBlackAndWhite = True
 
 	def buildPixelsVector(self, window, pixels, x, y):
 		neighbors = window/2
@@ -46,6 +50,11 @@ class MyImg:
 
 
 	def applySimpleFilter(self, func, extraArgs):
+	    
+	    if not isBlackAndWhite:
+	        print "Image must be set to black and white"
+	        return
+	        
 		self.setOutName(func.__name__  +'--'+ self.outImgName)
 	
 		self.pixels = self.img.load()
@@ -55,6 +64,10 @@ class MyImg:
 				self.pixels[x,y] = func(pixel, *extraArgs)
 
 	def applyComplexFilter(self, func, extraArgs, window=3):
+	    if not isBlackAndWhite:
+	        print "Image must be set to black and white"
+	        return
+	    
 		self.setOutName(func.__name__ +'--'+ self.outImgName)
 		neighbors = window/2
 		self.pixels = self.img.load()
@@ -80,5 +93,13 @@ class MyImg:
 				
 				self.copyPixels[x,y] = func(pixelsVector, *extraArgs)
 		self.img = self.copyImg.copy()
-
+		
+	def applySimple3ChannelsFilters(self, func, extraArgs):
+        self.setOutName(func.__name__  +'--'+ self.outImgName)
+	
+		self.pixels = self.img.load()
+		for x in range(self.width):
+			for y in range(self.height):
+				pixel = self.pixels[x,y]
+				self.pixels[x,y] = func(pixel, *extraArgs)
 
