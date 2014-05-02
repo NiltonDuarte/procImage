@@ -1,10 +1,15 @@
 from proc_img import *
 
 
-myImg = MyImg("face.png")
+myImg = MyImg("gaussianRGB--gaussianRGB--face.png")
 
 simple3CFilters = Simple3ChannelsFilters()
 
 myImg.applySimple3ChannelsFilters(simple3CFilters.skin,[])
 myImg.save()
+
+#complex3CFilters = Complex3ChannelsFilters()
+
+#myImg.applyComplex3ChannelsFilters(complex3CFilters.gaussianRGB, [], 5)
+#myImg.save()
 

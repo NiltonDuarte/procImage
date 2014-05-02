@@ -30,7 +30,7 @@ class Simple3ChannelsFilters:
 
 
 class Complex3ChannelsFilters:
-	def gaussianRGB(self, pixels, dp=2.0):
+	def gaussianRGB(self, pixels, dp=5.0):
 		ret = [0,0,0]
 		
 		for j in range(3):
