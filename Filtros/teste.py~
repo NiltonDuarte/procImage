@@ -1,7 +1,7 @@
 from proc_img import *
 
 
-myImg = MyImg("gaussianRGB--face.png")
+myImg = MyImg("gaussianRGB--face2.JPG")
 
 #simple3CFilters = Simple3ChannelsFilters()
 

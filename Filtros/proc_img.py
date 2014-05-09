@@ -32,7 +32,7 @@ class MyImg:
 		self.img.save(self.outImgName)
 		
 	def setColorBlackAndWhite(self):
-	    self.img.convert("L")
+	    self.img = self.img.convert("L")
 	    self.isBlackAndWhite = True
 
 	def buildPixelsVector(self, window, pixels, x, y):
@@ -51,9 +51,9 @@ class MyImg:
 
 	def applySimpleFilter(self, func, extraArgs):
 	    
-	        if not isBlackAndWhite:
+	        if not self.isBlackAndWhite:
+			self.setColorBlackAndWhite()
 	                print "Image must be set to black and white"
-	                return
 	        
 		self.setOutName(func.__name__  +'--'+ self.outImgName)
 	
@@ -64,9 +64,9 @@ class MyImg:
 				self.pixels[x,y] = func(pixel, *extraArgs)
 
 	def applyComplexFilter(self, func, extraArgs, window=3):
-	        if not isBlackAndWhite:
+	        if not self.isBlackAndWhite:
+			self.setColorBlackAndWhite()
 	                print "Image must be set to black and white"
-	                return
 	    
 		self.setOutName(func.__name__ +'--'+ self.outImgName)
 		neighbors = window/2
