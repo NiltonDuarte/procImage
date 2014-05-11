@@ -23,7 +23,8 @@ class Simple3ChannelsFilters:
 		Cb = 128 + (-0.148*RGB[0] - 0.291*RGB[1] + 0.439*RGB[2]);
 		Cr = 128 + (0.439*RGB[0] - 0.368*RGB[1] - 0.071*RGB[2]);
 		YCbCr = (Y, Cb, Cr)
-		if ( (80 <= YCbCr[0]) and (YCbCr[0] <= 230) and (77 <= YCbCr[1]) and (YCbCr[1]  <= 127) and (133 <= YCbCr[2]) and (YCbCr[2] <=173) ):
+		#if ( (80 <= YCbCr[0]) and (YCbCr[0] <= 230) and (77 <= YCbCr[1]) and (YCbCr[1]  <= 127) and (133 <= YCbCr[2]) and (YCbCr[2] <=173) ):
+		if ( (80 <= YCbCr[0]) and (YCbCr[0] <= 230) and (77 <= YCbCr[1]) and (YCbCr[1]  <= 135) and (130 <= YCbCr[2]) and (YCbCr[2] <=173) ):
 		    return RGB
 		else:
 		    return (0,0,0)
