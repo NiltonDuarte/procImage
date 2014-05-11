@@ -38,11 +38,11 @@ class Complex3ChannelsFilters:
 			retChannel = 0
 			sumRet = 0
 			for i in range(1, len(pixels)):
-				#if (i%2==0):
-				#	d = 2
-				#else:
-				#	d = 1 
-				d = (pixels[i][j]-pixels[0][j])/255.0
+				if (i%2==0):
+					d = 2
+				else:
+					d = 1 
+				#d = (pixels[i][j]-pixels[0][j])/255.0
 				w = gaussianFunc(dp, d)
 				retChannel += pixels[i][j]*w
 				sumRet += w

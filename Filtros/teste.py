@@ -5,7 +5,10 @@ myImg = MyImg("gaussianRGB--gaussianRGB--face.png")
 
 simple3CFilters = Simple3ChannelsFilters()
 
-myImg.applySimple3ChannelsFilters(simple3CFilters.skin,[])
+complexFilters = ComplexFilters()
+
+myImg.setColorGrayScale()
+myImg.applyComplexFilter(complexFilters.sobel,[])
 myImg.save()
 
 #complex3CFilters = Complex3ChannelsFilters()

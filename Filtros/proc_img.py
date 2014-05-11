@@ -31,7 +31,7 @@ class MyImg:
 	def save(self):
 		self.img.save(self.outImgName)
 		
-	def setColorBlackAndWhite(self):
+	def setColorGrayScale(self):
 	    self.img = self.img.convert("L")
 	    self.isBlackAndWhite = True
 
