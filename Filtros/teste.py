@@ -1,7 +1,7 @@
 from proc_img import *
 
 
-myImg = MyImg("gaussianRGB--gaussianRGB--face2.JPG")
+myImg = MyImg("gaussianRGB--gaussianRGB--face.png")
 
 simple3CFilters = Simple3ChannelsFilters()
 
@@ -14,11 +14,10 @@ myImg.save()
 #myImg.save()
 
 
-"""RGB=[145,130,149]
+RGB=[120,124,107]
 Y = 16 + (0.257*RGB[0] + 0.504*RGB[1] + 0.098*RGB[2]);
 Cb = 128 + (-0.148*RGB[0] - 0.291*RGB[1] + 0.439*RGB[2]);
 Cr = 128 + (0.439*RGB[0] - 0.368*RGB[1] - 0.071*RGB[2]);
 YCbCr = (Y, Cb, Cr)
-print YCbCr"""
-
+print YCbCr
 
