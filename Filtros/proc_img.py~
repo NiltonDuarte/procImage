@@ -31,7 +31,7 @@ class MyImg:
 	def save(self):
 		self.img.save(self.outImgName)
 		
-	def setColorBlackAndWhite(self):
+	def setColorGrayScale(self):
 	    self.img = self.img.convert("L")
 	    self.isBlackAndWhite = True
 
@@ -39,13 +39,15 @@ class MyImg:
 		neighbors = window/2
 		pixelsVector = []
 		pixelsVector.append(pixels[x,y])
-		for i in range(window-1):
-			for j in range(window-1):
-				if (neighbors+i != neighbors+j):
+		for i in range(window):
+			for j in range(window):
+				if (neighbors-i != 0 or neighbors-j != 0):
 					try:
-						pixelsVector.append(pixels[x-neighbors+i,y-neighbors+i])
+						pixelsVector.append(pixels[x-(neighbors-i),y-(neighbors-j)])
+						#print "(",x-neighbors-i,",",y-neighbors-j,") ",
 					except IndexError:
-						pass
+						pixelsVector.append(pixelsVector[-1])
+		#print ""
 		return pixelsVector
 
 
@@ -71,11 +73,13 @@ class MyImg:
 		self.setOutName(func.__name__ +'--'+ self.outImgName)
 		neighbors = window/2
 		self.pixels = self.img.load()
-		print self.pixels
 		self.copyImg = self.img.copy()
 		self.copyPixels = self.copyImg.load()
-		for x in range(1,self.width-1):
-			for y in range(1,self.height-1):
+		adjust = 1
+		if (window > 3):
+			adjust = 0
+		for x in range(adjust,self.width-adjust):
+			for y in range(adjust,self.height-adjust):
 
 				"""
 					| i=2 | i=5 | i=4 |
@@ -91,6 +95,19 @@ class MyImg:
 							self.pixels[x,y+1], self.pixels[x+1, y+1]]
 				else:
 					pixelsVector = self.buildPixelsVector(window, self.pixels, x, y)
+					"""pixelsVector = [self.pixels[x,y],
+							self.pixels[x-1,y], self.pixels[x-1,y-1],
+							self.pixels[x+1,y], self.pixels[x+1,y-1],
+							self.pixels[x,y-1], self.pixels[x-1,y+1],
+							self.pixels[x,y+1], self.pixels[x+1, y+1],
+							self.pixels[x-2,y], self.pixels[x-2,y-2],
+							self.pixels[x+2,y], self.pixels[x+2,y-2],
+							self.pixels[x,y-2], self.pixels[x-2,y+2],
+							self.pixels[x,y+2], self.pixels[x+2, y+2],
+							self.pixels[x-1,y-2],self.pixels[x-1,y+2],
+							self.pixels[x+1,y-2],self.pixels[x+1,y+2],
+							self.pixels[x+2,y-1],self.pixels[x+2,y+1],
+							self.pixels[x-2,y-1],self.pixels[x-2,y+1]]"""
 				
 				self.copyPixels[x,y] = func(pixelsVector, *extraArgs)
 		self.img = self.copyImg.copy()

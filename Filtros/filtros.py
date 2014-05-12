@@ -84,11 +84,11 @@ class ComplexFilters:
 		ret = 0
 		sumRet = 0
 		for i in range(1, len(pixels)):
-			#if (i%2==0):
-			#	d = 2
-			#else:
-			#	d = 1 
-			d = (pixels[i]-pixels[0])/255.0
+			if (i%2==0):
+				d = 1
+			else:
+				d = 1 
+			#d = (pixels[i]-pixels[0])/255.0
 			w = gaussianFunc(dp, d)
 			ret += pixels[i]*w
 			sumRet += w
@@ -96,7 +96,7 @@ class ComplexFilters:
 			ret = ret / sumRet
 		except ZeroDivisionError:
 			print "Erro: desvio padrão muito pequeno"
-			ret = pixel[0]
+			ret = pixels[0]
 		return ret
 
 	def median(self, pixels):

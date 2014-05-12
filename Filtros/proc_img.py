@@ -39,13 +39,15 @@ class MyImg:
 		neighbors = window/2
 		pixelsVector = []
 		pixelsVector.append(pixels[x,y])
-		for i in range(window-1):
-			for j in range(window-1):
-				if (neighbors+i != neighbors+j):
+		for i in range(window):
+			for j in range(window):
+				if (neighbors-i != 0 or neighbors-j != 0):
 					try:
-						pixelsVector.append(pixels[x-neighbors+i,y-neighbors+i])
+						pixelsVector.append(pixels[x-(neighbors-i),y-(neighbors-j)])
+						#print "(",x-neighbors-i,",",y-neighbors-j,") ",
 					except IndexError:
-						pass
+						pixelsVector.append(pixelsVector[-1])
+		#print ""
 		return pixelsVector
 
 
@@ -73,8 +75,11 @@ class MyImg:
 		self.pixels = self.img.load()
 		self.copyImg = self.img.copy()
 		self.copyPixels = self.copyImg.load()
-		for x in range(1,self.width-1):
-			for y in range(1,self.height-1):
+		adjust = 1
+		if (window > 3):
+			adjust = 0
+		for x in range(adjust,self.width-adjust):
+			for y in range(adjust,self.height-adjust):
 
 				"""
 					| i=2 | i=5 | i=4 |
