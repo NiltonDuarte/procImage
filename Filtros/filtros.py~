@@ -24,7 +24,7 @@ class Simple3ChannelsFilters:
 		Cr = 128 + (0.439*RGB[0] - 0.368*RGB[1] - 0.071*RGB[2]);
 		YCbCr = (Y, Cb, Cr)
 		#if ( (80 <= YCbCr[0]) and (YCbCr[0] <= 230) and (77 <= YCbCr[1]) and (YCbCr[1]  <= 127) and (133 <= YCbCr[2]) and (YCbCr[2] <=173) ):
-		if ( (80 <= YCbCr[0]) and (YCbCr[0] <= 230) and (77 <= YCbCr[1]) and (YCbCr[1]  <= 140) and (120 <= YCbCr[2]) and (YCbCr[2] <=173) ):
+		if ( (80 <= YCbCr[0]) and (YCbCr[0] <= 230) and (77 <= YCbCr[1]) and (YCbCr[1]  <= 145) and (120 <= YCbCr[2]) and (YCbCr[2] <=173) ):
 		    return RGB
 		else:
 		    return (0,0,0)
@@ -38,11 +38,11 @@ class Complex3ChannelsFilters:
 			retChannel = 0
 			sumRet = 0
 			for i in range(1, len(pixels)):
-				#if (i%2==0):
-				#	d = 2
-				#else:
-				#	d = 1 
-				d = (pixels[i][j]-pixels[0][j])/255.0
+				if (i%2==0):
+					d = 2
+				else:
+					d = 1 
+				#d = (pixels[i][j]-pixels[0][j])/255.0
 				w = gaussianFunc(dp, d)
 				retChannel += pixels[i][j]*w
 				sumRet += w
@@ -84,11 +84,11 @@ class ComplexFilters:
 		ret = 0
 		sumRet = 0
 		for i in range(1, len(pixels)):
-			#if (i%2==0):
-			#	d = 2
-			#else:
-			#	d = 1 
-			d = (pixels[i]-pixels[0])/255.0
+			if (i%2==0):
+				d = 2
+			else:
+				d = 1 
+			#d = (pixels[i]-pixels[0])/255.0
 			w = gaussianFunc(dp, d)
 			ret += pixels[i]*w
 			sumRet += w
