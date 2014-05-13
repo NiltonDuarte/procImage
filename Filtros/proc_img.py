@@ -108,21 +108,14 @@ class MyImg:
 				pixel = self.pixels[x,y]
 				self.pixels[x,y] = func(pixel, *extraArgs)
 
-	def applyComplex3ChannelsFilters(self, func, extraArgs, window=3):
-		self.setOutName(func.__name__ +'--'+ self.outImgName)
-		self.img = func(self.img, window, *extraArgs).copy()
-
-	def applyComplex3ChannelsFiltersOld(self, func, extraArgs, window=3):	    
+	def applyComplex3ChannelsFilters(self, func, extraArgs, window=3):	    
 		self.setOutName(func.__name__ +'--'+ self.outImgName)
 		neighbors = window/2
 		self.pixels = self.img.load()
 		self.copyImg = self.img.copy()
 		self.copyPixels = self.copyImg.load()
-		adjust = 1
-		if (window > 3):
-			adjust = 0
-		for x in range(adjust,self.width-adjust):
-			for y in range(adjust,self.height-adjust):
+		for x in range(1,self.width-1):
+			for y in range(1,self.height-1):
 
 				"""
 					| i=2 | i=5 | i=4 |

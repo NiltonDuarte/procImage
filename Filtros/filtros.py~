@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from PIL import Image
 from common_functions import *
 from math import *
 
@@ -30,64 +29,34 @@ class Simple3ChannelsFilters:
 		else:
 		    return (0,0,0)
 
+
 class Complex3ChannelsFilters:
-	def gaussianRGB(self, img, window=5, dp=2.0):
-		width = img.size[0]
-		height = img.size[1]
+	def gaussianRGB(self, pixels, dp=2.0):
+		ret = [0,0,0]
 		
-		pixels = img.load()
-		copyImg = img.copy()
-		copyPixels = copyImg.load()
+		for j in range(3):
+			retChannel = 0
+			sumRet = 0
+			for i in range(1, len(pixels)):
+				if (i%2==0):
+					d = 2
+				else:
+					d = 1 
+				#d = (pixels[i][j]-pixels[0][j])/255.0
+				w = gaussianFunc(dp, d)
+				retChannel += pixels[i][j]*w
+				sumRet += w
+			try:
+				retChannel = retChannel / sumRet
+			except ZeroDivisionError:
+				print "Erro: desvio padrão muito pequeno"
+				retChannel = pixel[0][j]
+			ret[j] = int(round(retChannel))
+		return tuple(ret)
 		
-		neighbors = window/2
-		adjust = 1
-		if (window > 3):
-			adjust = 0
-		for x in range(adjust,width-adjust):
-			for y in range(adjust,height-adjust):
-				channels = [0,0,0]
-				channelR = 0
-				channelG = 0
-				channelB = 0
-				sumChannel = 0
-				for i in range(window):
-					for j in range(window):
-						if (neighbors-i != 0 or neighbors-j != 0):
-							d = sqrt(((neighbors-i)**2)+\
-								((neighbors-j)**2))
-							w = gaussianFunc(dp,d)
-							try:
-								channelR += pixels[x-(neighbors-i),\
-										y-(neighbors-j)][0]*w
-								channelG += pixels[x-(neighbors-i),\
-										y-(neighbors-j)][1]*w
-								channelB += pixels[x-(neighbors-i),\
-										y-(neighbors-j)][2]*w
-							except IndexError:
-								channelR += pixels[x,y][0]*w
-								channelG += pixels[x,y][0]*w
-								channelB += pixels[x,y][0]*w
-							sumChannel+=w
-				try:
-					channelR = channelR/sumChannel
-				except ZeroDivisionError:
-					print "Erro: desvio padrão muito pequeno"
-					channelR = pixel[x,y][0]
-				try:
-					channelG = channelG/sumChannel
-				except ZeroDivisionError:
-					print "Erro: desvio padrão muito pequeno"
-					channelG = pixel[x,y][1]
-				try:
-					channelB = channelB/sumChannel
-				except ZeroDivisionError:
-					print "Erro: desvio padrão muito pequeno"
-					channelB = pixel[x,y][2]
-				channels[0] = int(round(channelR))
-				channels[1] = int(round(channelG))
-				channels[2] = int(round(channelB))
-				copyPixels[x,y] = tuple(channels)
-		return copyImg	
+        
+        
+	
 
 class ComplexFilters:
 	"""
@@ -115,11 +84,11 @@ class ComplexFilters:
 		ret = 0
 		sumRet = 0
 		for i in range(1, len(pixels)):
-			if (i%2==0):
-				d = 1
-			else:
-				d = 1 
-			#d = (pixels[i]-pixels[0])/255.0
+			#if (i%2==0):
+			#	d = 2
+			#else:
+			#	d = 1 
+			d = (pixels[i]-pixels[0])/255.0
 			w = gaussianFunc(dp, d)
 			ret += pixels[i]*w
 			sumRet += w
