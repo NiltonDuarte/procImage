@@ -1,28 +1,32 @@
 from proc_img import *
 
 
-myImg = MyImg("face2.JPG")
+myImg = MyImg("face.png")
 
 simple3CFilters = Simple3ChannelsFilters()
 
 complexFilters = ComplexFilters()
 
-"""myImg.setColorGrayScale()
+myImg.setColorGrayScale()
+myImg.applyComplexFilter(complexFilters.gaussian, [1.5], 5)
+myImg.save()
+myImg.applyComplexFilter(complexFilters.gaussian, [1.5], 5)
+myImg.save()
 myImg.applyComplexFilter(complexFilters.gaussian, [1.5], 5)
 myImg.save()
 myImg.applyComplexFilter(complexFilters.gaussian, [1.5], 5)
 myImg.save()
 myImg.applyComplexFilter(complexFilters.sobel,[])
-myImg.save()"""
+myImg.save()
 
-complex3CFilters = Complex3ChannelsFilters()
+"""complex3CFilters = Complex3ChannelsFilters()
 
 myImg.applyComplex3ChannelsFilters(complex3CFilters.gaussianRGB, [], 5)
 myImg.save()
 myImg.applyComplex3ChannelsFilters(complex3CFilters.gaussianRGB, [], 5)
 myImg.save()
 myImg.applySimple3ChannelsFilters(simple3CFilters.skin,[])
-myImg.save()
+myImg.save()"""
 
 
 RGB=[123,121,158]
