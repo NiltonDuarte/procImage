@@ -3,6 +3,13 @@
 from common_functions import *
 from math import *
 
+def RGBtoYCbCr(RGB):
+	Y = 16 + (0.257*RGB[0] + 0.504*RGB[1] + 0.098*RGB[2]);
+	Cb = 128 + (-0.148*RGB[0] - 0.291*RGB[1] + 0.439*RGB[2]);
+	Cr = 128 + (0.439*RGB[0] - 0.368*RGB[1] - 0.071*RGB[2]);
+	YCbCr = (Y, Cb, Cr)
+	return YCbCr
+
 class SimpleFilters:
 	def negative(self, x):
 		ret = (1.0-(x/255.0)) * 255.0
@@ -19,16 +26,29 @@ class SimpleFilters:
 
 class Simple3ChannelsFilters:
         def skin(self, RGB):
-                Y = 16 + (0.257*RGB[0] + 0.504*RGB[1] + 0.098*RGB[2]);
-		Cb = 128 + (-0.148*RGB[0] - 0.291*RGB[1] + 0.439*RGB[2]);
-		Cr = 128 + (0.439*RGB[0] - 0.368*RGB[1] - 0.071*RGB[2]);
-		YCbCr = (Y, Cb, Cr)
+                #Y = 16 + (0.257*RGB[0] + 0.504*RGB[1] + 0.098*RGB[2]);
+		#Cb = 128 + (-0.148*RGB[0] - 0.291*RGB[1] + 0.439*RGB[2]);
+		#Cr = 128 + (0.439*RGB[0] - 0.368*RGB[1] - 0.071*RGB[2]);
+		YCbCr = RGBtoYCbCr(RGB)
 		#if ( (80 <= YCbCr[0]) and (YCbCr[0] <= 230) and (77 <= YCbCr[1]) and (YCbCr[1]  <= 127) and (133 <= YCbCr[2]) and (YCbCr[2] <=173) ):
 		if ( (80 <= YCbCr[0]) and (YCbCr[0] <= 230) and (77 <= YCbCr[1]) and (YCbCr[1]  <= 145) and (120 <= YCbCr[2]) and (YCbCr[2] <=173) ):
 		    return RGB
 		else:
 		    return (0,0,0)
-
+		    
+	def eyeMapC(self, RGB)
+	"""EyeMapC = 1/3 ( (Cb**2)' + ((1-Cr)**2)' + (Cb/Cr)')  todos os termos precisam ser normalizado para [0,1]
+		(Cb**2)' = Cb**2/255**2
+		((1-Cr)**2)' = (1-Cr)**2/255*2
+		(Cb/Cr)' = Cb/(255*Cr)"""
+		YCbCr = RGBtoYCbCr(RGB)
+		Cb = YCbCr[1]
+		Cr = YCbCr[2]
+		Cb2n = Cb**2/255**2
+		Cr2n = (1-Cr)**2/255*2
+		CbDivCr = Cb/(255*Cr)
+		EyeMapC = 1/3 ( Cb2n + Cr2n + CbDivCr)  
+		return (EyeMapC,EyeMapC,EyeMapC)
 
 class Complex3ChannelsFilters:
 	def gaussianRGB(self, pixels, dp=2.0):
