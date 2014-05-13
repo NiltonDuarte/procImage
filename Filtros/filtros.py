@@ -36,7 +36,7 @@ class Simple3ChannelsFilters:
 		else:
 		    return (0,0,0)
 		    
-	def eyeMapC(self, RGB)
+	def eyeMapC(self, RGB):
 	"""EyeMapC = 1/3 ( (Cb**2)' + ((1-Cr)**2)' + (Cb/Cr)')  todos os termos precisam ser normalizado para [0,1]
 		(Cb**2)' = Cb**2/255**2
 		((1-Cr)**2)' = (1-Cr)**2/255*2
@@ -50,24 +50,26 @@ class Simple3ChannelsFilters:
 		EyeMapC = 1/3 ( Cb2n + Cr2n + CbDivCr)  
 		return (EyeMapC,EyeMapC,EyeMapC)
 		
-	def eyeMapC_PrimeiraComponente (self,RGB)
+	def eyeMapC_PrimeiraComponente (self,RGB):
 		YCbCr = RGBtoYCbCr(RGB)
 		Cb = YCbCr[1]
 		Cb2n = Cb**2/255**2
 		return (Cb2n,Cb2n,Cb2n)
 		
-	def eyeMapC_SegundaComponente (self,RGB)
+	def eyeMapC_SegundaComponente (self,RGB):
 		YCbCr = RGBtoYCbCr(RGB)
 		Cr = YCbCr[2]
 		Cr2n = (1-Cr)**2/255*2
 		return (Cr2n,Cr2n,Cr2n)
 		
-	def eyeMapC_TerceiraComponente (self,RGB)
+	def eyeMapC_TerceiraComponente (self,RGB):
 		YCbCr = RGBtoYCbCr(RGB)
 		Cb = YCbCr[1]
 		Cr = YCbCr[2]
 		CbDivCr = Cb/(255*Cr)
 		return (CbDivCr,CbDivCr,CbDivCr)
+		
+	
 
 
 class Complex3ChannelsFilters:
@@ -241,5 +243,8 @@ class ComplexFilters:
 		ret = sqrt((x**2)+(y**2))
 		return ret
 		
+	def EyeMapL (self, pixels):
+	"""nao faço ideia de como fazer"""
+		return
 		
 
