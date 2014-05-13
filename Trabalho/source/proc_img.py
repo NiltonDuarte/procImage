@@ -29,7 +29,7 @@ class MyImg:
 		self.img.show()
 
 	def save(self):
-		self.img.save(self.outImgName)
+		self.img.save("../img/"+self.outImgName)
 		
 	def setColorGrayScale(self):
 	    self.img = self.img.convert("L")
@@ -95,19 +95,6 @@ class MyImg:
 							self.pixels[x,y+1], self.pixels[x+1, y+1]]
 				else:
 					pixelsVector = self.buildPixelsVector(window, self.pixels, x, y)
-					"""pixelsVector = [self.pixels[x,y],
-							self.pixels[x-1,y], self.pixels[x-1,y-1],
-							self.pixels[x+1,y], self.pixels[x+1,y-1],
-							self.pixels[x,y-1], self.pixels[x-1,y+1],
-							self.pixels[x,y+1], self.pixels[x+1, y+1],
-							self.pixels[x-2,y], self.pixels[x-2,y-2],
-							self.pixels[x+2,y], self.pixels[x+2,y-2],
-							self.pixels[x,y-2], self.pixels[x-2,y+2],
-							self.pixels[x,y+2], self.pixels[x+2, y+2],
-							self.pixels[x-1,y-2],self.pixels[x-1,y+2],
-							self.pixels[x+1,y-2],self.pixels[x+1,y+2],
-							self.pixels[x+2,y-1],self.pixels[x+2,y+1],
-							self.pixels[x-2,y-1],self.pixels[x-2,y+1]]"""
 				
 				self.copyPixels[x,y] = func(pixelsVector, *extraArgs)
 		self.img = self.copyImg.copy()
@@ -121,14 +108,21 @@ class MyImg:
 				pixel = self.pixels[x,y]
 				self.pixels[x,y] = func(pixel, *extraArgs)
 
-	def applyComplex3ChannelsFilters(self, func, extraArgs, window=3):	    
+	def applyComplex3ChannelsFilters(self, func, extraArgs, window=3):
+		self.setOutName(func.__name__ +'--'+ self.outImgName)
+		self.img = func(self.img, window, *extraArgs).copy()
+
+	def applyComplex3ChannelsFiltersOld(self, func, extraArgs, window=3):	    
 		self.setOutName(func.__name__ +'--'+ self.outImgName)
 		neighbors = window/2
 		self.pixels = self.img.load()
 		self.copyImg = self.img.copy()
 		self.copyPixels = self.copyImg.load()
-		for x in range(1,self.width-1):
-			for y in range(1,self.height-1):
+		adjust = 1
+		if (window > 3):
+			adjust = 0
+		for x in range(adjust,self.width-adjust):
+			for y in range(adjust,self.height-adjust):
 
 				"""
 					| i=2 | i=5 | i=4 |
