@@ -272,8 +272,5 @@ class ComplexFilters:
 		ret = sqrt((x**2)+(y**2))
 		return ret
 		
-	def EyeMapL (self, pixels):
-	"""nao faço ideia de como fazer"""
-		return
 		
 
