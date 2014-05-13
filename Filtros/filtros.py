@@ -49,6 +49,26 @@ class Simple3ChannelsFilters:
 		CbDivCr = Cb/(255*Cr)
 		EyeMapC = 1/3 ( Cb2n + Cr2n + CbDivCr)  
 		return (EyeMapC,EyeMapC,EyeMapC)
+		
+	def eyeMapC_PrimeiraComponente (self,RGB)
+		YCbCr = RGBtoYCbCr(RGB)
+		Cb = YCbCr[1]
+		Cb2n = Cb**2/255**2
+		return (Cb2n,Cb2n,Cb2n)
+		
+	def eyeMapC_SegundaComponente (self,RGB)
+		YCbCr = RGBtoYCbCr(RGB)
+		Cr = YCbCr[2]
+		Cr2n = (1-Cr)**2/255*2
+		return (Cr2n,Cr2n,Cr2n)
+		
+	def eyeMapC_TerceiraComponente (self,RGB)
+		YCbCr = RGBtoYCbCr(RGB)
+		Cb = YCbCr[1]
+		Cr = YCbCr[2]
+		CbDivCr = Cb/(255*Cr)
+		return (CbDivCr,CbDivCr,CbDivCr)
+
 
 class Complex3ChannelsFilters:
 	def gaussianRGB(self, pixels, dp=2.0):
