@@ -11,8 +11,7 @@ class Transformadas:
         	       [even[k] - exp(-2j*pi*k/N)*odd[k] for k in xrange(N/2)]
                
     	def imgFFT(self, img):
-        	"""passar cada linha /coluna da imagem para o fft, e calcular a magnitude no ponto x,y dado
-		pelo fft da linha x e coluna y"""
+        	"""passar cada linha da imagem para o fft, passar fft para cada coluna do resultado """
 		pass
 
                 
