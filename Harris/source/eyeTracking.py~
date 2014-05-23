@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from harris import *
+import harris
 from image import *
 import math
 
@@ -18,7 +18,7 @@ class eyeTracking:
 		self.img.setColorGrayScale()
 	
 	def harrisGreatestValueCoord(self, coord):
-		harrisImg = harrisImg(coord[0], coord[1], self.img.img)
+		harrisImg = harris.harrisImg(coord[0], coord[1], self.img.img)
 		maxHarris = 0;
 		harrisCoord = [0,0]
 		for i in range(len(harrisImg)):

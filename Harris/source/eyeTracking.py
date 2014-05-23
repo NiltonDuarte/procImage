@@ -6,10 +6,10 @@ import math
 
 class eyeTracking:
 	def __init__(self):
-		self.rightEyeCoord = [570.0,264.0]
-		self.pRightEyeCoord = [570.0,264.0]
-		self.leftEyeCoord = [744.0,261.0]
-		self.pLeftEyeCoord = [744.0,261.0]
+		self.rightEyeCoord = [260.0,205.0]
+		self.pRightEyeCoord = [260.0,205.0]
+		self.leftEyeCoord = [355.0,203.0]
+		self.pLeftEyeCoord = [355.0,203.0]
 		self.pTheta = 0
 		self.theta = 0
 
