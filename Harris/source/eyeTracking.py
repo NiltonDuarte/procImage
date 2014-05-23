@@ -1,19 +1,24 @@
+# -*- coding: utf-8 -*-
 
+from harris import *
+from image import *
+import math
 
 class eyeTracking:
-
-
 	def __init__(self):
-		self.rightEyeCoord = [0,0]
-		self.pRightEyeCoord = [0,0]
-		self.leftEyeCoord = [0,0]
-		self.pLeftEyeCoord = [0,0]
+		self.rightEyeCoord = [570.0,264.0]
+		self.pRightEyeCoord = [570.0,264.0]
+		self.leftEyeCoord = [744.0,261.0]
+		self.pLeftEyeCoord = [744.0,261.0]
 		self.pTheta = 0
 		self.theta = 0
+
+	def setImg(img):
+		self.img = MyImg(img)
+		self.img.setColorGrayScale()
 	
-	def harrisGreatestValueCoord(self, coord)
-		img = None;
-		harrisImg = harrisImg(coord[0], coord[1], img);
+	def harrisGreatestValueCoord(self, coord):
+		harrisImg = harrisImg(coord[0], coord[1], self.img.img)
 		maxHarris = 0;
 		harrisCoord = [0,0]
 		for i in range(len(harrisImg)):

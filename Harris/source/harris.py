@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import numpy as np 
-
+from functions import *
 
 def eigenvalues (matrix):
 #matrix = {A, B}
@@ -27,7 +26,7 @@ def harrisValue (x2g_derivative ,y2g_derivative, xyg_derivative) :
 	x2y2 = imgMul(x2g_derivative, y2g_derivative)
 	xy2 = imgMul(xyg_derivative, xyg_derivative)
 	detM = imgSub(x2y2, xy2)
-	traceM = imgSumx2g_derivative, y2g_derivative)
+	traceM = imgSum(x2g_derivative, y2g_derivative)
 	traceM2 = imgMul(traceM, traceM)
 	value = imgSub(detM , imgMul(a, traceM2))
 	return value
@@ -51,7 +50,8 @@ def coordRegion(coordX, coordY, inputImg):
 	#takes a region 50x50 pixels centered in coord
 	window = 51
 	half_window = window-1/2.0
-	pixels = inputImg.load()
+	pixels = inputImg
+	#inputImg.load()
 	region = [[0]*50]*50
 	for i in range(window):
 		for j in range(window):
@@ -60,7 +60,8 @@ def coordRegion(coordX, coordY, inputImg):
 	return region
 	
 def harrisImg(coordX, coordY, inputImg):
-	region = coodRegion(coordX, coordY, inputImg)
+	region = coordRegion(coordX, coordY, inputImg)
 	x2g_derivative, y2g_derivative, xyg_derivative = harrisImagesDerivatives(region)
 	harrisImg = harrisValue (x2g_derivative ,y2g_derivative, xyg_derivative)
+	harrisImg = normalize(harrisImg)
 	return harrisImg

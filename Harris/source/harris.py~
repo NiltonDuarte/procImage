@@ -1,56 +1,67 @@
-class MyImg:
-	def __init__(self, imgDir):
-		self.imgDir = imgDir
+# -*- coding: utf-8 -*-
 
-		aux = imgDir.split('/')		
-		self.outImgName = aux[-1]
+from functions import *
 
-		self.img = Image.open(self.imgDir)
-                self.isBlackAndWhite = False
-		self.width = self.img.size[0]
-		self.height = self.img.size[1]
-
-	def getSize(self):
-		return self.img.size
-
-	def getMode(self):
-		return self.img.mode
-
-	def setOutName(self, imgName):
-		self.outImgName = imgName
-
-	def show(self):
-		self.img.show()
-
-	def save(self):
-		self.img.save("../img/"+self.outImgName)
-		
-	def setColorGrayScale(self):
-	    self.img = self.img.convert("L")
-	    self.isBlackAndWhite = True
-
-def sobel(self, pixels):
-	"""
-		| i=2 (-1)| i=5 (0)| i=4 (1)|
-		| i=1 (-2)| i=0 (0)| i=3 (2)|
-		| i=6 (-1)| i=7 (0)| i=8 (1)|
-	"""
-	self.pixelsDict = {1:-2, 2:-1, 3:2, 4:1, 5:0, 6:-1, 7:0, 8:1}
-	x = 0.0
-	for i in range(1, len(pixels)):
-		#peso * valor
-		x += self.pixelsDict[i] * pixels[i]
-
-
-	"""
-		| i=2 (-1)| i=5 (-2)| i=4 (-1)|
-		| i=1 (0) | i=0 (0) | i=3 (0) |
-		| i=6 (1) | i=7 (2) | i=8 (1) |
-	"""
-	self.pixelsDict = {1:0, 2:-1, 3:0, 4:-1, 5:-2, 6:1, 7:2, 8:1}
-	y = 0.0
-	for i in range(1, len(pixels)):
-		y += self.pixelsDict[i] * pixels[i]
-
-	ret = sqrt((x**2)+(y**2))
-	return ret
+def eigenvalues (matrix):
+#matrix = {A, B}
+#		  {B, C}
+#lambda_1 = 1/2 (-sqrt(A^2-2 A C+4 B^2+C^2)+A+C)
+#lambda_2 = 1/2 (sqrt(A^2-2 A C+4 B^2+C^2)+A+C)
+#return [lambda_1, lambda_2]
+	A = matrix[0][0]
+	B = matrix[0][1]
+	C = matrix[1][1]
+	lambda_1 = (1/2.0)*(- ((A**2 - 2*A*C + 4*B**2 + C**2)**0.5) + A + C)
+	lambda_2 = (1/2.0)*((A**2 - 2*A*C + 4*B**2 + C**2)**0.5 + A + C)
+	
+	return [lambda_1, lambda_2]
+	
+def harrisValue (x2g_derivative ,y2g_derivative, xyg_derivative) :
+	# A = x2g_derivative  B = xyg_derivative  C = y2g_derivative
+	# M = [[A, B] , [B, C]]
+	# value = det(M) - a * trace(M)^2
+	# det(M) = A*C - B^2 = x2y2 - xy2
+	# trace(M) = A + C = x2g_derivative + y2g_derivative
+	a = 0.06
+	x2y2 = imgMul(x2g_derivative, y2g_derivative)
+	xy2 = imgMul(xyg_derivative, xyg_derivative)
+	detM = imgSub(x2y2, xy2)
+	traceM = imgSumx2g_derivative, y2g_derivative)
+	traceM2 = imgMul(traceM, traceM)
+	value = imgSub(detM , imgMul(a, traceM2))
+	return value
+	
+def harrisImagesDerivatives (gray_image):
+	#partial derivatives
+	x_derivative , y_derivative = sobel(gray_image)
+	
+	#autocorrelation matrix values
+	x2_derivative = imgMul(x_derivative, x_derivative)
+	y2_derivative = imgMul(y_derivative, y_derivative)
+	xy_derivative = imgMul(x_derivative, y_derivative)
+	
+	#gaussian of the autocorrelation matrix values
+	x2g_derivative = gaussianFilter(x2_derivative,7)
+	y2g_derivative = gaussianFilter(y2_derivative,7)
+	xyg_derivative = gaussianFilter(xy_derivative,7)
+	return x2g_derivative, y2g_derivative, xyg_derivative
+	
+def coordRegion(coordX, coordY, inputImg):
+	#takes a region 50x50 pixels centered in coord
+	window = 51
+	half_window = window-1/2.0
+	pixels = inputImg
+	#inputImg.load()
+	region = [[0]*50]*50
+	for i in range(window):
+		for j in range(window):
+			region[i][j] = pixels[i - half_window, j - half_window]
+	
+	return region
+	
+def harrisImg(coordX, coordY, inputImg):
+	region = coordRegion(coordX, coordY, inputImg)
+	x2g_derivative, y2g_derivative, xyg_derivative = harrisImagesDerivatives(region)
+	harrisImg = harrisValue (x2g_derivative ,y2g_derivative, xyg_derivative)
+	harrisImg = normalize(harrisImg)
+	return harrisImg
