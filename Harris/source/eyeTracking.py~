@@ -4,13 +4,14 @@ from image import *
 
 class eyeTracking:
 
+
 	def __init__(self):
 		self.eyeCoord = [0,0]
 		self.pEyeCoord = [0,0]
 	
 	def harrisGreatestValueCoord(self)
 		img = MyImg("../img/face.png");
-		harrisImg = harrisImg(eyeCoord[0], eyeCoord[1], img.img);
+		harrisImg = harrisImg(eyeCoord[0], eyeCoord[1], img);
 		maxHarris = 0;
 		harrisCoord = [0,0]
 		for i in range(len(harrisImg)):
