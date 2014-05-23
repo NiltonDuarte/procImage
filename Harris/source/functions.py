@@ -98,8 +98,8 @@ def sobel(img):
 									y-(neighbors-j)]*(pairY*wY)
 						except IndexError:
 							channelY += pixels[x,y]*(pairY*wY)
-			copyPixelsX[x,y] = channelX
-			copyPixelsY[x,y] = channelY	
+			copyPixelsX[x,y] = abs(channelX)
+			copyPixelsY[x,y] = abs(channelY)	
 	return copyImgX, copyImgY
 
 def imgMult(A, B):
@@ -139,3 +139,22 @@ def imgSum(A, B):
 		for y in range(len(A[0])):
 			ret[x].append(A[x][y] + B[x][y])
 	return ret
+
+def normalize(imgMatrix):
+	ret = []
+	maximum = 0
+	minimun = 0
+	for i in range(len(imgMatrix)):
+		for j in range(len(imgMatrix[0])):
+			if (imgMatrix[i][j] > maximum):
+				maximum = imgMatrix[i][j]
+			if (imgMatrix[i][j] < minimum):
+				minimum = imgMatrix[i][j]
+	for i in range(len(imgMatrix)):
+		ret.append([])
+		for j in range(len(imgMatrix[0])):
+			retAux = 255.0*(imgMatrix[i]-minimum)
+			ret[i].append(retAux/(maximum-minimum))
+
+	return ret
+				
