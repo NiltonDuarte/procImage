@@ -121,7 +121,6 @@ def imgMult(A, B):
 				ret[x].append(B[x][y] * A)
 	else:
 		ret = A*B
-
 	return ret
 
 def imgSub(A, B):
