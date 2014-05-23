@@ -43,7 +43,7 @@ def harrisImagesDerivatives (gray_image):
 	#gaussian of the autocorrelation matrix values
 	x2g_derivative = gaussianFilter(x2_derivative,7)
 	y2g_derivative = gaussianFilter(y2_derivative,7)
-	xyg_derivative = gaussianFilter(xy_derivative,7
+	xyg_derivative = gaussianFilter(xy_derivative,7)
 	return x2g_derivative, y2g_derivative, xyg_derivative
 	
 	
