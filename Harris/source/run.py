@@ -11,29 +11,35 @@ else:
 	cap.open(0)
 	ret, frame = cap.read()
 
+print "Criando janela"
 winName = "Movement Indicator"
 cv2.namedWindow(winName, cv2.CV_WINDOW_AUTOSIZE)
 
+print "Mostrando frame"
+cv2.imshow(winName,frame)
 
 eT = eyeTracking()
 
-while(True):
-	cv2.imshow(winName,frame)	
+while(True):	
 
 	# Capture frame-by-frame
 	ret, frame = cap.read()
-	
+	print "Recuperando frame"
 
 	# Our operations on the frame come here
+	print "Escala de cinza"
 	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+	print "EyeTrack"
 	eT.setImg(gray)
 	eT.eyeTracking()
 
-	cv2.circle(gray, eT.leftEyeCoord, 5,  cv2.Scalar(255), 2, 8, 0 )
-	cv2.circle(gray, eT.rightEyeCoord, 5,  cv2.Scalar(255), 2, 8, 0 )
+	print "Pontos na imagem como marcador"
+	cv2.circle(frame, eT.leftEyeCoord, 5,  255, 2, 8, 0 )
+	cv2.circle(frame, eT.rightEyeCoord, 5,  255, 2, 8, 0 )
 
 	# Display the resulting frame
-	cv2.imshow('frame',gray)
+	cv2.imshow(winName,frame)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
 

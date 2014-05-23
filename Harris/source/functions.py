@@ -153,7 +153,7 @@ def normalize(imgMatrix):
 	for i in range(len(imgMatrix)):
 		ret.append([])
 		for j in range(len(imgMatrix[0])):
-			retAux = 255.0*(imgMatrix[i]-minimum)
+			retAux = 255.0*(imgMatrix[i][j]-minimum)
 			ret[i].append(retAux/(maximum-minimum))
 
 	return ret
