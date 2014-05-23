@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 import numpy as np 
 
@@ -16,19 +17,20 @@ def eigenvalues (matrix):
 	
 	return [lambda_1, lambda_2]
 	
-def harrisValue (x2g_derivative ,y2g_derivative, xy_derivative) :
-	# A = x2g_derivative  B = xy_derivative  C = y2g_derivative
+def harrisValue (x2g_derivative ,y2g_derivative, xyg_derivative) :
+	# A = x2g_derivative  B = xyg_derivative  C = y2g_derivative
 	# M = [[A, B] , [B, C]]
 	# value = det(M) - a * trace(M)^2
 	# det(M) = A*C - B^2 = x2y2 - xy2
 	# trace(M) = A + C = x2g_derivative + y2g_derivative
 	a = 0.06
 	x2y2 = imgMul(x2g_derivative, y2g_derivative)
-	xy2 = imgMul(xy_derivative, xy_derivative)
+	xy2 = imgMul(xyg_derivative, xyg_derivative)
 	detM = imgSub(x2y2, xy2)
 	traceM = imgSumx2g_derivative, y2g_derivative)
 	traceM2 = imgMul(traceM, traceM)
 	value = imgSub(detM , imgMul(a, traceM2))
+	return value
 	
 def harrisImagesDerivatives (gray_image):
 	#partial derivatives
@@ -43,6 +45,30 @@ def harrisImagesDerivatives (gray_image):
 	x2g_derivative = gaussianFilter(x2_derivative,7)
 	y2g_derivative = gaussianFilter(y2_derivative,7)
 	xyg_derivative = gaussianFilter(xy_derivative,7)
+	return x2g_derivative, y2g_derivative, xyg_derivative
 	
+<<<<<<< HEAD
 matrix = [[5,3],[3,7]]
 print eigenvalues(matrix)
+=======
+	
+def coodRegion(coordX, coordY, inputImg):
+	#takes a region 50x50 pixels centered in coord
+	window = 51
+	half_window = window-1/2.0
+	pixels = inputImg.load()
+	region = [[0]*50]*50
+	for i in range(window):
+		for j in range(window):
+			region[i][j] = pixels[i - half_window, j - half_window]
+	
+	return region
+	
+def harrisImg(coordX, coordY, inputImg):
+	region = coodRegion(coordX, coordY, inputImg)
+	x2g_derivative, y2g_derivative, xyg_derivative = harrisImagesDerivatives(region)
+	harrisImg = harrisValue (x2g_derivative ,y2g_derivative, xyg_derivative)
+	return harrisImg
+	
+	
+>>>>>>> b4d42029792cfdae5867821a166ccd2e3e7d38bd
