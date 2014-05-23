@@ -12,8 +12,8 @@ class MyImg:
 		#self.img = Image.open(self.imgDir)
 		self.img = img
                 self.isBlackAndWhite = False
-		self.width = self.img.size[0]
-		self.height = self.img.size[1]
+		#self.width = self.img.size[0]
+		#self.height = self.img.size[1]
 
 	def getSize(self):
 		return self.img.size
@@ -33,5 +33,6 @@ class MyImg:
 		pass
 		
 	def setColorGrayScale(self):
-	    self.img = self.img.convert("L")
-	    self.isBlackAndWhite = True
+		#self.img = self.img.convert("L")
+		#self.isBlackAndWhite = True
+		pass

@@ -49,10 +49,10 @@ def harrisImagesDerivatives (gray_image):
 def coordRegion(coordX, coordY, inputImg):
 	#takes a region 50x50 pixels centered in coord
 	window = 51
-	half_window = window-1/2.0
+	half_window = (window-1)/2.0
 	pixels = inputImg
 	#inputImg.load()
-	region = [[0]*50]*50
+	region = [[0]*51]*51
 	for i in range(window):
 		for j in range(window):
 			region[i][j] = pixels[i - half_window, j - half_window]

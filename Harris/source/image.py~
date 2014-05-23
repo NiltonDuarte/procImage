@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from PIL import Image
-from filtros import *
 
 class MyImg:
 	def __init__(self, img):
@@ -13,8 +12,8 @@ class MyImg:
 		#self.img = Image.open(self.imgDir)
 		self.img = img
                 self.isBlackAndWhite = False
-		self.width = self.img.size[0]
-		self.height = self.img.size[1]
+		#self.width = self.img.size[0]
+		#self.height = self.img.size[1]
 
 	def getSize(self):
 		return self.img.size

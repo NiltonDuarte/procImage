@@ -61,8 +61,8 @@ def sobel(img):
 	copyPixelsY = copy.deepcopy(img)
 	
 	neighbors = 3/2
-	for x in range(1,width-adjust):
-		for y in range(1,height-adjust):
+	for x in range(1,width-1):
+		for y in range(1,height-1):
 			channelX = 0
 			channelY = 0
 			for i in range(3):
@@ -84,7 +84,8 @@ def sobel(img):
 							wY = 0
 							wX = 2
 						else:
-							w = 1
+							wY = 1
+							wX = 1
 						
 						try:
 							channelX += pixels[y-(neighbors-j)]\
@@ -101,7 +102,7 @@ def sobel(img):
 			copyPixelsY[y][x] = abs(channelY)	
 	return copyPixelsX, copyPixelsY
 
-def imgMult(A, B):
+def imgMul(A, B):
 	ret = []
 	if type(A) is list and type(B) is list:
 		for x in range(len(A)):
@@ -142,7 +143,7 @@ def imgSum(A, B):
 def normalize(imgMatrix):
 	ret = []
 	maximum = 0
-	minimun = 0
+	minimum = 0
 	for i in range(len(imgMatrix)):
 		for j in range(len(imgMatrix[0])):
 			if (imgMatrix[i][j] > maximum):
