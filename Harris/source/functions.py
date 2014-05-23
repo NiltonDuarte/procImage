@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from math import *
+import copy
 
 def gaussianFunc(dp, d):
 	gF = (1.0/(sqrt(2.0*pi)*(dp))) * exp(-(d**2)/(2.0*(dp**2)))
 	return gF
 
 def gaussianFilter(img, window=5, dp=2.0):
-	width = img.size[0]
-	height = img.size[1]
+	width = len(img[0])
+	height = len(img)
 	
-	pixels = img.load()
-	copyImg = img.copy()
-	copyPixels = copyImg.load()
+	pixels = copy.deepcopy(img)
+
+	copyPixels = copy.deepcopy(img)
 	
 	neighbors = window/2
 	adjust = 1
@@ -29,18 +30,18 @@ def gaussianFilter(img, window=5, dp=2.0):
 							((neighbors-j)**2))
 						w = gaussianFunc(dp,d)
 						try:
-							channel += pixels[x-(neighbors-i),\
-									y-(neighbors-j)]*w
+							channel += pixels[y-(neighbors-j)]\
+									[x-(neighbors-i)]*w
 						except IndexError:
-							channel += pixels[x,y]*w
+							channel += pixels[y][x]*w
 						sumChannel+=w
 			try:
 				channel = channel/sumChannel
 			except ZeroDivisionError:
 				print "Erro: desvio padrão muito pequeno"
-				channel = pixel[x,y]
-			copyPixels[x,y] = channel
-	return copyImg
+				channel = pixel[y][x]
+			copyPixels[y][x] = channel
+	return copyPixels
 
 def sobel(img):
 
@@ -50,16 +51,14 @@ def sobel(img):
 		| -1| 0| 1|	|  1|  2| 1|
 	"""
 
-	width = img.size[0]
-	height = img.size[1]
+	width = len(img[0])
+	height = len(img)
 	
-	pixels = img.load()
+	pixels = copy.deepcopy(img)
 
-	copyImgX = img.copy()
-	copyPixelsX = copyImg.load()
+	copyPixelsX = copy.deepcopy(img)
 
-	copyImgY = img.copy()
-	copyPixelsY = copyImg.load()
+	copyPixelsY = copy.deepcopy(img)
 	
 	neighbors = 3/2
 	for x in range(1,width-adjust):
@@ -88,19 +87,19 @@ def sobel(img):
 							w = 1
 						
 						try:
-							channelX += pixels[x-(neighbors-i),\
-									y-(neighbors-j)]*(pairX*wX)
+							channelX += pixels[y-(neighbors-j)]\
+									[x-(neighbors-i)]*(pairX*wX)
 						except IndexError:
-							channelX += pixels[x,y]*(pairX*wX)
+							channelX += pixels[y][x]*(pairX*wX)
 
 						try:
-							channelY += pixels[x-(neighbors-i),\
-									y-(neighbors-j)]*(pairY*wY)
+							channelY += pixels[y-(neighbors-j)]\
+									[x-(neighbors-i)]*(pairY*wY)
 						except IndexError:
-							channelY += pixels[x,y]*(pairY*wY)
-			copyPixelsX[x,y] = abs(channelX)
-			copyPixelsY[x,y] = abs(channelY)	
-	return copyImgX, copyImgY
+							channelY += pixels[y][x]*(pairY*wY)
+			copyPixelsX[y][x] = abs(channelX)
+			copyPixelsY[y][x] = abs(channelY)	
+	return copyPixelsX, copyPixelsY
 
 def imgMult(A, B):
 	ret = []
