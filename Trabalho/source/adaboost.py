@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from math import *
+import copy
 
 class IntegralImg:
 	def __init__(self, img):
@@ -107,7 +108,7 @@ class WeakClassifier:
 			y expects 1 or 0 like classification"""
         self.trainingSet = set
 		
-	def train(self):
+	def train(self, feature):
 		positiveN = 0
 		positive = 0
 		
@@ -117,31 +118,35 @@ class WeakClassifier:
 		for x in range(len(self.trainingSet)):
 			if self.trainingSet[x][1] > 0:
 				positiveN += 1
-				positive += self.trainingSet[x][0]
+				positive += self.trainingSet[x][0][feature]
 			else:
 				negativeN += 1
-				negative += self.trainingSet[x][0]
+				negative += self.trainingSet[x][0][feature]
 		
 		self.threshold = 0.5*((negative/negativeN) + (positive/positiveN))
 		self.parity = (negative/negativeN) - (positive/positiveN)
 		self.parity = copysign(1,self.parity)
 		
-	def classify(self, x):
+	def predict(self, x):
 		"""@x expects features"""
 		if not self.parity or not self.threshold:
 			train()
 		if (self.parity*x) < (self.parity*self.threshold):
 			return 1
 		else:
-			return 0
+			return -1
     
 
-class AdaBoost:
+class AdaBoost():
 	"""k - false negative cost k times more than false positives"""
     def __init__(self, P, N, k=2):
 		self.k = k
 		self.trainingSet = []
 		self.d = []
+		self.weakClassifier = []
+		self.featuresSet=[]
+		self.alpha = []
+		self.threshold = 0
 		
 		setTrainingSet(P, N)
 		
@@ -154,8 +159,10 @@ class AdaBoost:
 			self.trainingSet.append(pair)
 			
 		for i in range(len(self.N)):
-			pair = (self.N[i], 0)
-			self.trainingSet.append(pair)     
+			pair = (self.N[i], -1)
+			self.trainingSet.append(pair) 
+		
+		self.featuresSet = copy.deepcopy(self.trainingSet)
 			
 	def setWeights(self):
 		for i in range(len(self.trainingSet)):
@@ -164,5 +171,85 @@ class AdaBoost:
 			self.d.append(di)
 			
 	def train(self, T):
-		pass
+		setWeights()
 		
+		for t in range(T):
+			epsT = None
+			classifierT = None
+			featureT = None
+			Zt = 0
+			e = []
+		
+			#Normalização dos pesos
+			sumD = 0
+			for i in range(len(self.d)):
+				sumD += self.d[i]
+			for i in range(len(self.d)):
+				self.d[i] = self.d[i]/sumD
+			
+			#Obtendo features
+			for x in range(len(self.trainingSet)):
+				features = []
+				haarFeatures = HaarFeatures(self.trainingSet[x][0])
+				
+				features.append(haarFeatures.edgeFeature())
+				features.append(haarFeatures.edgeFeature(self.w-1, self.h/2))
+				features.append(haarFeatures.lineFeature())
+				features.append(haarFeatures.lineFeature(self.w-1, self.w-1, self.h/3, self.h*2/3)
+				features.append(haarFeatures.diagonalFeature())
+				
+				self.featuresSet[x][0] = copy.deepcopy(features)
+			
+			#Treinando classificadores fracos pra cada feature
+			for feature in range(5):
+				currentClassifier = WeakClassifier(self.featuresSet)
+				currentClassifier.train(feature)
+				eps = 0
+				
+				for x in range(len(self.featuresSet)):
+					h = currentClassifier.predict(self.featuresSet[x][0][feature])
+					eps += self.d[x]*abs(h-self.featuresSet[x][1])
+					
+				#Selecionando classificador de menor erro
+				if not epsT:
+					epsT = eps
+					classifierT = currentClassifier
+					featureT = feature
+				elif epsT and eps < epsT:
+					epsT = eps
+					classifierT = currentClassifier
+					featureT = feature
+			self.weakClassifier.append(classifierT)	
+			
+			#Atualizando os pesos
+			alphaT = 0.5*log((1-epsT)/epsT)
+			self.threshold += alphaT
+			self.alpha.append(alphaT)
+			for i in range(len(self.trainingSet)):
+				h = classifierT.predict(self.featuresSet[i][0][featureT])
+				self.d[i] = self.d[i]*exp(-alphaT*self.trainingSet[i][1]*h)
+		
+		self.threshold = self.threshold*0.5
+	
+	def predict(self, X):
+		img = 0
+		features = []
+		haarFeatures = HaarFeatures(X)
+				
+		features.append(haarFeatures.edgeFeature())
+		features.append(haarFeatures.edgeFeature(self.w-1, self.h/2))
+		features.append(haarFeatures.lineFeature())
+		features.append(haarFeatures.lineFeature(self.w-1, self.w-1, self.h/3, self.h*2/3)
+		features.append(haarFeatures.diagonalFeature())
+		
+		
+		for i in range(len(self.weakClassifier)):
+			h = 0
+			for feature in features:
+				h += self.weakClassifier[i].predict(features[feature])
+			img += self.alpha[i]*h	
+			
+		if img >= self.threshold:
+			return 1
+		else:
+			return 0
