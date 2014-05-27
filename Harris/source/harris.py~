@@ -47,21 +47,27 @@ def harrisImagesDerivatives (gray_image):
 	return x2g_derivative, y2g_derivative, xyg_derivative
 	
 def coordRegion(coordX, coordY, inputImg):
-	#takes a region 50x50 pixels centered in coord
-	window = 50
-	half_window = (window)/2.0
+	#takes a region 51x51 pixels centered in coord
+	window = 16
+	half_window = (window-1)/2
 	pixels = inputImg
 	#inputImg.load()
-	region = [[0]*50]*50
+	region = [[0 for _ in range(window)] for _ in range(window)]
 	for i in range(window):
 		for j in range(window):
-			region[i][j] = pixels[i - half_window, j - half_window]
+			try:
+				region[i][j] = pixels[coordX + i - half_window, coordY + j - half_window]
+			except:
+				pass
+			
 	
 	return region
 	
 def harrisImg(coordX, coordY, inputImg):
 	region = coordRegion(coordX, coordY, inputImg)
-	x2g_derivative, y2g_derivative, xyg_derivative = harrisImagesDerivatives(region)
+	gaussianRegion = gaussianFilter(region)
+	#print region
+	x2g_derivative, y2g_derivative, xyg_derivative = harrisImagesDerivatives(gaussianRegion)
 	harrisImg = harrisValue (x2g_derivative ,y2g_derivative, xyg_derivative)
 	harrisImg = normalize(harrisImg)
 	return harrisImg

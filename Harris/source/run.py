@@ -4,6 +4,7 @@ import cv2
 import functions
 import math
 
+
 cap = cv2.VideoCapture(0)
 
 if cap.isOpened():
