@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from eyeTracking import *
 import cv2
-import functions
+
 
 cap = cv2.VideoCapture(0)
 
