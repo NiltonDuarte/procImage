@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import math
+from math import *
 
 class IntegralImg:
 	def __init__(self, img):
@@ -51,7 +51,7 @@ class HaarFeatures:
 		x,y = self.h-1, self.w-1
 		dark = self.integralImg.getII(x,y) - light
 		
-		return dark-light
+		return abs(dark-light)
 		
 	def lineFeature(self, edge1=None, edge2=None):
 		"""	@edge1 and @edge2 limits dark part of feature"""
@@ -76,7 +76,7 @@ class HaarFeatures:
 		
 		light = light1 + light2
 		
-		return dark-light
+		return abs(dark-light)
 		
 	def diagonalFeature(self):
 		x = self.w/2
@@ -97,14 +97,14 @@ class HaarFeatures:
 		light -= dark1 + dark2
 		
 		dark = dark1 + dark2
-		return dark - light
+		return abs(dark - light)
 	
 		
 class WeakClassifier:
     def __init__(self, set):
-	"""@set expects something like a list of tuples [(x,y)]
-		x expects features
-		y expects 1 or 0 like classification"""
+		"""@set expects something like a list of tuples [(x,y)]
+			x expects features
+			y expects 1 or 0 like classification"""
         self.trainingSet = set
 		
 	def train(self):
@@ -124,7 +124,7 @@ class WeakClassifier:
 		
 		self.threshold = 0.5*((negative/negativeN) + (positive/positiveN))
 		self.parity = (negative/negativeN) - (positive/positiveN)
-		self.parity = math.copysign(1,self.parity)
+		self.parity = copysign(1,self.parity)
 		
 	def classify(self, x):
 		"""@x expects features"""
@@ -136,7 +136,33 @@ class WeakClassifier:
 			return 0
     
 
-class AdaBoost(Classifier):
-    def __init__(self):
-        pass
-            
+class AdaBoost:
+	"""k - false negative cost k times more than false positives"""
+    def __init__(self, P, N, k=2):
+		self.k = k
+		self.trainingSet = []
+		self.d = []
+		
+		setTrainingSet(P, N)
+		
+	def setTrainingSet(self, P, N):
+		self.P = P
+		self.N = N
+		
+		for i in range(len(self.P)):
+			pair = (self.P[i], 1)
+			self.trainingSet.append(pair)
+			
+		for i in range(len(self.N)):
+			pair = (self.N[i], 0)
+			self.trainingSet.append(pair)     
+			
+	def setWeights(self):
+		for i in range(len(self.trainingSet)):
+			di = exp(self.trainingSet[i][1]*log(sqrt(self.k)))
+			di = di/len(self.trainingSet)
+			self.d.append(di)
+			
+	def train(self, T):
+		pass
+		

@@ -6,26 +6,33 @@ import math
 from functions import *
 
 class eyeTracking:
+<<<<<<< HEAD
 	def __init__(self, leftEyeCoordList, rightEyeCoordList):
 		self.rightEyeCoord = rightEyeCoordList
 		self.pRightEyeCoord = self.rightEyeCoord
 		self.leftEyeCoord = leftEyeCoordList
 		self.pLeftEyeCoord = self.leftEyeCoord
+=======
+	def __init__(self):
+		self.rightEyeCoord = [260.0,205.0]
+		self.pRightEyeCoord = [260.0,205.0]
+		self.leftEyeCoord = [355.0,203.0]
+		self.pLeftEyeCoord = [355.0,203.0]
+>>>>>>> 70f910238c2977c0d1683a17e6e192da0af3a45c
 		self.pTheta = 0
 		self.theta = 0
 		self.harrisValue = -1
 		self.img = None
-		self.pImg = None
+		self.nextImg = None
 
 	def setImg(self, img):
-		if self.pImg == None :
-			self.img = MyImg(img)
-			self.img.setColorGrayScale()
-			self.pImg = self.img
+		if self.nextImg == None :
+			self.nextImg = MyImg(img)
+			self.nextImg.setColorGrayScale()
 		else:
-			self.pImg = self.img
-			self.img = MyImg(img)
-			self.img.setColorGrayScale()
+			self.img = self.nextImg
+			self.nextImg = MyImg(img)
+			self.nextImg.setColorGrayScale()
 
 	def harrisGreatestValueCoord(self, coord):
 		harrisImg = harris.harrisImg(coord[0], coord[1], self.img.img)
