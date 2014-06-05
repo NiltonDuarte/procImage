@@ -21,7 +21,7 @@ cv2.namedWindow(winName, cv2.CV_WINDOW_AUTOSIZE)
 cv2.imshow(winName,frame)
 cv2.waitKey(5)
 
-eT = eyeTracking()
+#eT = eyeTracking()
 nFrame = 0
 
 while(True):	
@@ -35,7 +35,7 @@ while(True):
 	#print "Ret Camera: ", ret
 	#print "Recuperando frame"
 	
-	if nFrame > 5:
+	"""if nFrame > 5:
 		# Our operations on the frame come here
 		#print "Escala de cinza"
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -50,7 +50,7 @@ while(True):
 	
 
 	cv2.circle(frame, leftEye, 10,  255, 3, 8, 0)
-	cv2.circle(frame, rightEye, 10,  255, 3, 8, 0)
+	cv2.circle(frame, rightEye, 10,  255, 3, 8, 0)"""
 
 	# Display the resulting frame
 	cv2.imshow(winName,frame)
