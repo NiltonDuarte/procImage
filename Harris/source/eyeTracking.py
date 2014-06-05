@@ -230,7 +230,7 @@ class eyeTracking:
 			#self.leftEyeCurrImgRegion = gaussianFilter(region)
 			
 			self.leftEyeCoord = self.minSSD(self.leftEyePrevImgRegion, self.leftEyeCurrImgRegion, self.leftEyeCoord)
-		"""
+			"""
 		else: #inicializacao de next img
 			#region = self.coordRegion(self.rightEyeCoord)
 			self.rightEyeCurrImgRegion = self.cvEyeRegion(self.rightEyeCoord)

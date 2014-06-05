@@ -171,7 +171,7 @@ class eyeTracking:
 					self.currImgHarrisTop5[-1][0] = harrisImg[i][j]
 					self.currImgHarrisTop5[-1][1] = (coord[0] + i - (len(harrisImg)-1)/2, coord[1] + j - (len(harrisImg)-1)/2)
 					self.currImgHarrisTop5.sort(key = itemgetter(0), reverse=True)
-					print self.currImgHarrisTop5
+					#print self.currImgHarrisTop5
 		
 
 	def harrisTracking(self, img ,coord):
