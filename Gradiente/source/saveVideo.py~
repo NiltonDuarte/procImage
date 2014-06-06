@@ -1,13 +1,14 @@
 import cv2
+import numpy as np
 
 img1 = cv2.imread('face3.png')
 
 
 height , width , layers =  img1.shape
 
-#fourcc = cv2.VideoWriter_fourcc(*'XVID')
-video = cv2.VideoWriter()
-video.open('videoW27.avi',-1, 30.0, (width,height))
+fourcc = cv2.cv.CV_FOURCC(*'XVID')
+video = cv2.VideoWriter('./videoW27.avi', fourcc, 5, (width, height), 1)
+#video.open('videoW27.avi',-1, 30.0, (width,height))
 
 #video = cv2.VideoWriter('videoW27.avi',-1,1,(width,height))
 
@@ -31,12 +32,8 @@ while(cap.isOpened() and ret):
 
 
 	if ret:
-
-
-		
 		cv2.circle(frame, rightPos[i], 3,  255, 2, 8, 0 )
 		cv2.circle(frame, leftPos[i], 3,  255, 2, 8, 0 )
-
 
 		video.write(frame)
 		cv2.imshow('frame',frame)
@@ -45,10 +42,7 @@ while(cap.isOpened() and ret):
 		i +=1
 
 
-
-
-
 cap.release()
-video.release()
+#video.release()
 cv2.destroyAllWindows()
 
