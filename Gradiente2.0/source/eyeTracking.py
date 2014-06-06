@@ -88,23 +88,19 @@ class eyeTracking:
 		dummy, img = cv2.threshold(gygx, 20, 255, cv2.THRESH_BINARY)
 		self.gradient = img
 		
-		argMaxValPos = [0, (0,0)]
 		halfWindow = self.halfWindow
 		
-		
+		cisVal = np.ndarray(shape=(self.window,self.window), dtype=float)
+
 		#TRATAR ERRO DE RANGE
-		for j in range(coord[0] - halfWindow, coord[0]+ halfWindow+1):
-			for i in range(coord[1] - halfWindow, coord[1]+ halfWindow+1):
-				if img[i,j] == 0:
-					ci = (j,i)
-					currArgMax = 0
-					n = 0
-					#print "for externo"
-					for jg in range(coord[0] - halfWindow, coord[0]+ halfWindow+1):
-						for ig in range(coord[1] - halfWindow, coord[1]+ halfWindow+1):
-							if img[ig,jg] > 0:
-				
-								n += 1
+		for jg in range(coord[0] - halfWindow, coord[0]+ halfWindow+1):
+			for ig in range(coord[1] - halfWindow, coord[1]+ halfWindow+1):
+				if img[ig,jg] > 0:
+					for j in range(coord[0] - halfWindow, coord[0]+ halfWindow+1):
+						for i in range(coord[1] - halfWindow, coord[1]+ halfWindow+1):
+							if img[i,j] == 0:
+								ci = (j,i)
+
 								normaDisti = ((jg - j)**2 + (ig - i)**2 )**0.5 
 								disti = ((jg - j)/normaDisti , (ig - i)/normaDisti)
 
@@ -113,14 +109,16 @@ class eyeTracking:
 								gi = (gxi, gyi)
 								disti_dot_gi = (gi[0]*disti[0] + gi[1]*disti[1])
 				
-								currArgMax += max(0.0, disti_dot_gi)**2
+								cisVal[j,i] += max(0.0, disti_dot_gi)**2
 
-					if (currArgMax/n > argMaxValPos[0]):
-						argMaxValPos[0] = currArgMax/n
-						argMaxValPos[1] = ci
 
-		print "argMaxValPos[1]	",argMaxValPos[1]
-		return 	argMaxValPos[1]	
+		aux = np.argmax(cisVal , axis =0)
+		aux2 = aux[np.argmax(aux , axis =0)
+		ci = (aux[aux2] , aux2)
+		
+		
+		print "ci = ", ci
+		return 	ci
 			
 				
 				
