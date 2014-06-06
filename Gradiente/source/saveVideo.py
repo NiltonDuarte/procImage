@@ -31,7 +31,7 @@ leftPos = [(287, 208), (287, 208), (287, 207), (287, 207), (287, 207), (286, 207
 
 i = 0
 
-cap = cv2.VideoCapture('faceNilton.mp4')
+cap = cv2.VideoCapture('faceNilton.mov')
 ret = True
 
 while(cap.isOpened() and ret):
@@ -47,7 +47,7 @@ while(cap.isOpened() and ret):
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			break
 		i +=1
-		if i > len(rightPos):
+		if i+20 > len(rightPos):
 			ret = False
 
 
