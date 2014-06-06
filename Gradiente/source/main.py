@@ -43,7 +43,7 @@ while(cap.isOpened() and ret):
 		print rightPos
 		print leftPos
 
-		cv2.imshow('frame',frame)
+		#cv2.imshow('frame',frame)
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			break
 		#a = raw_input("da enter")
