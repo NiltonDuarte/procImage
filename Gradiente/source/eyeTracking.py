@@ -27,7 +27,7 @@ class eyeTracking:
 		self.leftEyePrevImgRegion = None
 		self.leftEyeCurrImgRegion = None
 		self.gradient = None
-		self.window = 51
+		self.window = 23
 		self.halfWindow = (self.window-1)/2
 		
 		
@@ -136,6 +136,7 @@ class eyeTracking:
 			#self.rightEyeCurrImgRegion = self.cvEyeRegion(self.rightEyeCoord)
 			
 			self.rightEyeCoord = self.gradientCenter(self.rightEyeCoord)
+			self.leftEyeCoord = self.gradientCenter(self.leftEyeCoord)
 			
 			"""
 			self.rightEyeCoord = self.maxCC(self.rightEyePrevImgRegion, self.rightEyeCurrImgRegion, self.rightEyeCoord)
