@@ -10,11 +10,11 @@ img = cv2.imread('face3.png',0)
 
 
 
-eT = eyeTracking((290, 191), (420, 184))
+eT = eyeTracking((288, 207), (382, 203))
 
 
 
-cap = cv2.VideoCapture('face.mov')
+cap = cv2.VideoCapture('faceNilton.mov')
 ret = True
 
 rightPos = []
@@ -35,8 +35,8 @@ while(cap.isOpened() and ret):
 		eT.eyeTracking()
 		
 		#print "right eye", eT.rightEyeCoord
-		cv2.circle(frame, eT.rightEyeCoord, 3,  255, 2, 8, 0 )
-		cv2.circle(frame, eT.leftEyeCoord, 3,  255, 2, 8, 0 )
+		cv2.circle(frame, eT.rightEyeCoord, 6,  255, 2, 8, 0 )
+		cv2.circle(frame, eT.leftEyeCoord, 6,  255, 2, 8, 0 )
 		#print "eT.rightEyeCoord = ", eT.rightEyeCoord
 		rightPos.append(eT.rightEyeCoord)
 		leftPos.append(eT.leftEyeCoord)

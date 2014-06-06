@@ -27,7 +27,7 @@ class eyeTracking:
 		self.leftEyePrevImgRegion = None
 		self.leftEyeCurrImgRegion = None
 		self.gradient = None
-		self.window = 29
+		self.window = 25
 		self.halfWindow = (self.window-1)/2
 		
 		
