@@ -114,7 +114,7 @@ class eyeTracking:
 
 		aux = np.argmax(cisVal , axis =0)
 		aux2 = aux[np.argmax(aux , axis =0)
-		ci = (aux[aux2] , aux2)
+		ci = (aux2 , aux[aux2])
 		
 		
 		print "ci = ", ci
