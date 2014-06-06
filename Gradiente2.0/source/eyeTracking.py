@@ -10,22 +10,12 @@ from operator import itemgetter
 class eyeTracking:
 	def __init__(self, leftEyeCoordTuple, rightEyeCoordTuple):
 		self.rightEyeCoord = rightEyeCoordTuple
-		self.pRightEyeCoord = self.rightEyeCoord
+
 		self.leftEyeCoord = leftEyeCoordTuple
-		self.pLeftEyeCoord = self.leftEyeCoord
-		self.pTheta = 0
-		self.theta = 0
-		#self.harrisValue = -1
+
+
 		self.currImg = None
-		self.prevImg = None
-		#lista com o valos do harris, e aposicao dele
-		self.harrisImg = None
-		self.currImgHarrisTop5 = [[0,(0,0)],[0,(0,0)],[0,(0,0)],[0,(0,0)],[0,(0,0)]]
-		self.prevImgHarrisTop5 = [[0,(0,0)],[0,(0,0)],[0,(0,0)],[0,(0,0)],[0,(0,0)]]
-		self.rightEyePrevImgRegion = None
-		self.rightEyeCurrImgRegion = None
-		self.leftEyePrevImgRegion = None
-		self.leftEyeCurrImgRegion = None
+
 		self.gradient = None
 		self.window = 25
 		self.halfWindow = (self.window-1)/2
@@ -33,38 +23,10 @@ class eyeTracking:
 		
 
 	def setImg(self, img):
-		if self.currImg == None :
-			self.currImg = img
-		else:
-			self.prevImg = self.currImg
-			self.currImg = img
+		self.currImg = img
 
 	
 	
-	def cvEyeRegion(self,coord):
-		
-		window = 61
-		halfWindow = (window-1)/2
-		
-		"""
-		startY and endY coordinates, followed by the startX and endX 
-		If (x1,y1) top left and (x2,y2) bottom right are the two opposite vertices of plate you obtained, then simply use function:
-
-		roi = gray[y1:y2, x1:x2]
-		"""
-		x1 = coord[0]-halfWindow
-		y1 = coord[1]-halfWindow
-		x2 = coord[0]+halfWindow+1
-		y2 = coord[1]+halfWindow+1
-		
-		
-		
-		eye = self.currImg[y1:y2, x1:x2]
-		#gaussianEye = cv2.GaussianBlur(eye,(5,5),2);
-		return eye
-
-
-		
 	def gradientCenter(self, coord):
 
 		# white to black, gradiente > 0 
@@ -127,43 +89,8 @@ class eyeTracking:
 	
 	
 	def eyeTracking(self):	
-		if (True):#self.prevImg != None):
-			self.pRightEyeCoord = self.rightEyeCoord
-			
-			#self.rightEyePrevImgRegion = np.copy(self.rightEyeCurrImgRegion)
-			#self.rightEyeCurrImgRegion = self.cvEyeRegion(self.rightEyeCoord)
-			
-			self.rightEyeCoord = self.gradientCenter(self.rightEyeCoord)
-			self.leftEyeCoord = self.gradientCenter(self.leftEyeCoord)
-			
-			"""
-			self.rightEyeCoord = self.maxCC(self.rightEyePrevImgRegion, self.rightEyeCurrImgRegion, self.rightEyeCoord)
-			print (self.rightEyeCoord[0] - self.pRightEyeCoord[0] , self.rightEyeCoord[1] - self.pRightEyeCoord[1])
-			
-			self.pLeftEyeCoord = self.leftEyeCoord
-
-			self.leftEyePrevImgRegion = np.copy(self.leftEyeCurrImgRegion)
-			self.leftEyeCurrImgRegion = self.cvEyeRegion(self.leftEyeCoord)
-			#region = self.coordRegion(self.leftEyeCoord)
-			#self.leftEyeCurrImgRegion = gaussianFilter(region)
-			
-			self.leftEyeCoord = self.minSSD(self.leftEyePrevImgRegion, self.leftEyeCurrImgRegion, self.leftEyeCoord)
-			"""
-		else: #inicializacao de next img
-			#region = self.coordRegion(self.rightEyeCoord)
-			self.rightEyeCurrImgRegion = self.cvEyeRegion(self.rightEyeCoord)
-
-			#region = self.coordRegion(self.leftEyeCoord)
-			self.leftEyeCurrImgRegion = self.cvEyeRegion(self.leftEyeCoord)	
-			
+		self.rightEyeCoord = self.gradientCenter(self.rightEyeCoord)
+		self.leftEyeCoord = self.gradientCenter(self.leftEyeCoord)
 		
-
-	"""
-		if (self.img != None):
-			self.pRightEyeCoord = self.rightEyeCoord
-			self.rightEyeCoord = self.harrisCoord(self.rightEyeCoord)
-			self.pLeftEyeCoord = self.leftEyeCoord
-			self.leftEyeCoord = self.harrisCoord(self.leftEyeCoord)
-	"""
 
 		
