@@ -14,7 +14,7 @@ eT = eyeTracking((287, 166), (397, 170))
 
 
 
-cap = cv2.VideoCapture('Face3.mp4')
+cap = cv2.VideoCapture('moving.mov')
 ret = True
 
 rightPos = []

@@ -10,11 +10,11 @@ img = cv2.imread('face3.png',0)
 
 
 
-eT = eyeTracking((287, 166), (397, 170))
+eT = eyeTracking((290, 190), (430, 185))
 
 
 
-cap = cv2.VideoCapture('Face3.mp4')
+cap = cv2.VideoCapture('moving.mov')
 ret = True
 
 rightPos = []
