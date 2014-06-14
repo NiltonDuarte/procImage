@@ -8,11 +8,11 @@ import numpy as np
 
 img = cv2.imread('face3.png',0)
 
-
+img1 = cv2.imread('face3.png')
 
 eT = eyeTracking((288, 207), (382, 203))
 
-
+height , width , layers =  img1.shape
 
 cap = cv2.VideoCapture('faceNilton.mov')
 ret = True
@@ -20,7 +20,8 @@ ret = True
 rightPos = []
 leftPos = []
 
-
+fourcc = cv2.cv.CV_FOURCC(*'XVID')
+video = cv2.VideoWriter('./videoNilton.avi', fourcc, 25, (width, height), 1)
 
 while(cap.isOpened() and ret):
 	ret, frame = cap.read()
@@ -43,7 +44,11 @@ while(cap.isOpened() and ret):
 		print rightPos
 		print leftPos
 
-		#cv2.imshow('frame',frame)
+		video.write(frame)
+		cv2.imshow('frame',frame)
+		cv2.imshow('gx',eT.gx)
+		cv2.imshow('gy',eT.gy)
+		cv2.imshow('threshold',eT.threshold)
 		if cv2.waitKey(1) & 0xFF == ord('q'):
 			break
 		#a = raw_input("da enter")
